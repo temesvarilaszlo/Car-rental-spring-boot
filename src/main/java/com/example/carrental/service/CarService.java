@@ -1,11 +1,13 @@
-package com.example.CarRental.service;
+package com.example.carrental.service;
 
-import com.example.CarRental.model.Car;
-import com.example.CarRental.repository.CarRepository;
+import com.example.carrental.model.Car;
+import com.example.carrental.repository.CarRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Service
 public class CarService {
     private final CarRepository carRepository;
 

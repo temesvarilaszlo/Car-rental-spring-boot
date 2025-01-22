@@ -1,6 +1,6 @@
-package com.example.CarRental.model;
+package com.example.carrental.model;
 
-import javax.persistence.*;
+import jakarta.persistence.*;
 
 @Entity
 public class Car {
@@ -19,6 +19,10 @@ public class Car {
     public Car(String name, boolean isActive) {
         this.name = name;
         this.isActive = isActive;
+    }
+
+    public Long getId() {
+        return id;
     }
 
     public String getName() {

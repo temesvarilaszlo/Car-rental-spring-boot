@@ -1,6 +1,7 @@
-package com.example.CarRental.model;
+package com.example.carrental.model;
 
-import javax.persistence.*;
+import jakarta.persistence.*;
+
 import java.time.ZonedDateTime;
 
 @Entity
