@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.List;
@@ -27,9 +28,10 @@ public class CarController {
     }
 
     @PostMapping
-    public String createCar(){
-        Car car = new Car("Honda Civic", true);
+    public ResponseEntity<String> createCar(@RequestBody Car carRequest){
+        System.out.println(carRequest.isActive());
+        Car car = new Car(carRequest.getName(), carRequest.isActive());
         Car c = carService.createCar(car);
-        return "ok" + c.getId();
+        return ResponseEntity.ok("ok" + c.getId());
     }
 }

@@ -1,6 +1,11 @@
 package com.example.carrental.model;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
+
+import java.util.List;
 
 @Entity
 public class Car {
@@ -13,6 +18,11 @@ public class Car {
 
     @Column(nullable = false)
     private boolean isActive;
+
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JoinColumn(name = "car_id")
+    @JsonManagedReference
+    private List<Reservation> reservations;
 
     public Car() {}
 
@@ -31,6 +41,10 @@ public class Car {
 
     public boolean isActive() {
         return isActive;
+    }
+
+    public List<Reservation> getReservations() {
+        return reservations;
     }
 
     public void setActive(boolean active) {
