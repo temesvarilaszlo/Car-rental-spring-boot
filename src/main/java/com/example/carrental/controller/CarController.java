@@ -2,6 +2,7 @@ package com.example.carrental.controller;
 
 import com.example.carrental.model.Car;
 import com.example.carrental.service.CarService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -28,9 +29,9 @@ public class CarController {
     }
 
     @PostMapping
-    public ResponseEntity<String> createCar(@RequestBody Car carRequest){
+    public ResponseEntity<String> createCar(@Valid @RequestBody Car carRequest){
         System.out.println(carRequest.isActive());
-        Car car = new Car(carRequest.getName(), carRequest.isActive());
+        Car car = new Car(carRequest.getName());
         Car c = carService.createCar(car);
         return ResponseEntity.ok("ok" + c.getId());
     }

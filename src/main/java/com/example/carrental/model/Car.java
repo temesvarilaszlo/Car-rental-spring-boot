@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
+import org.hibernate.validator.constraints.Length;
 
 import java.util.List;
 
@@ -13,6 +14,8 @@ public class Car {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotNull(message = "Name is required")
+    @Length(min = 1, max = 100, message = "Name is required")
     @Column(nullable = false, length = 100)
     private String name;
 
@@ -26,9 +29,9 @@ public class Car {
 
     public Car() {}
 
-    public Car(String name, boolean isActive) {
+    public Car(String name) {
         this.name = name;
-        this.isActive = isActive;
+        this.isActive = true;
     }
 
     public Long getId() {
