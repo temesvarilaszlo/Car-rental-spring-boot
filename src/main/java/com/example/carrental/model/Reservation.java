@@ -1,6 +1,7 @@
 package com.example.carrental.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 
 import java.time.LocalDate;
@@ -8,7 +9,6 @@ import java.time.temporal.ChronoUnit;
 
 @Entity
 public class Reservation {
-    private final long DAILY_COST = 10000;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -23,7 +23,7 @@ public class Reservation {
     @Column(nullable = false)
     private String address;
 
-    @Column(nullable = false)
+    @Column(nullable = false, length = 20)
     private String phoneNum;
 
     @Column(nullable = false)
@@ -50,7 +50,7 @@ public class Reservation {
         this.startDate = startDate;
         this.endDate = endDate;
         this.car = car;
-        this.cost = daysBetween(startDate, endDate) * DAILY_COST;
+        this.cost = (daysBetween(startDate, endDate) + 1) * car.getDailyCost();
     }
 
     public Long getId() {

@@ -3,9 +3,13 @@ package com.example.carrental.model;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
+import jakarta.validation.constraints.Size;
 import org.hibernate.validator.constraints.Length;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Entity
@@ -14,10 +18,15 @@ public class Car {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotNull(message = "Name is required")
-    @Length(min = 1, max = 100, message = "Name is required")
+    @NotNull
+    @Size(min = 1, max = 100)
     @Column(nullable = false, length = 100)
     private String name;
+
+    @Positive
+    @NotNull
+    @Column(nullable = false)
+    private int dailyCost;
 
     @Column(nullable = false)
     private boolean isActive;
@@ -29,9 +38,19 @@ public class Car {
 
     public Car() {}
 
-    public Car(String name) {
+    public Car(String name, int dailyCost) {
         this.name = name;
+        this.dailyCost = dailyCost;
         this.isActive = true;
+    }
+
+    public boolean isFree(LocalDate startDate, LocalDate endDate){
+        for (Reservation reservation : reservations) {
+            if (!(endDate.isBefore(reservation.getStartDate()) || startDate.isAfter(reservation.getEndDate()))) {
+                return false;
+            }
+        }
+        return true;
     }
 
     public Long getId() {
@@ -40,6 +59,10 @@ public class Car {
 
     public String getName() {
         return name;
+    }
+
+    public int getDailyCost() {
+        return dailyCost;
     }
 
     public boolean isActive() {

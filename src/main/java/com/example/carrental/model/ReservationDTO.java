@@ -1,15 +1,49 @@
 package com.example.carrental.model;
 
+import com.example.carrental.validator.dateRange.ValidDateRange;
+import com.example.carrental.validator.phoneNum.ValidPhoneNumber;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.FutureOrPresent;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
+import org.hibernate.validator.constraints.Length;
+
 import java.time.LocalDate;
 
+@ValidDateRange
 public class ReservationDTO {
     private long id;
+
+    @NotNull
+    @Size(min = 1, max = 100)
     private String name;
+
+    @NotNull
+    @Size(min = 1, max = 100)
+    @Email
     private String email;
+
+    @NotNull
+    @Size(min = 1, max = 255)
     private String address;
+
+    @NotNull
+    @Size(min = 1, max = 20)
+    @ValidPhoneNumber
     private String phoneNum;
+
+    @NotNull
+    @FutureOrPresent
+    @JsonFormat(pattern = "yyyy-MM-dd")
     private LocalDate startDate;
+
+    @NotNull
+    @FutureOrPresent
+    @JsonFormat(pattern = "yyyy-MM-dd")
     private LocalDate endDate;
+
+    @NotNull
     private long carId;
 
     public ReservationDTO(long id, String name, String email, String address, String phoneNum, LocalDate startDate, LocalDate endDate, long carId) {
@@ -29,5 +63,13 @@ public class ReservationDTO {
 
     public long getCarId() {
         return carId;
+    }
+
+    public LocalDate getStartDate() {
+        return startDate;
+    }
+
+    public LocalDate getEndDate() {
+        return endDate;
     }
 }

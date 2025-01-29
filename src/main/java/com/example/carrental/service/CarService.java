@@ -5,6 +5,7 @@ import com.example.carrental.repository.CarRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -23,6 +24,10 @@ public class CarService {
 
     public List<Car> getCars(){
         return carRepository.findAll();
+    }
+
+    public List<Car> getFreeCars(LocalDate startDate, LocalDate endDate){
+        return carRepository.findAll().stream().filter(car -> car.isFree(startDate, endDate)).toList();
     }
 
     public Optional<Car> getCarById(Long id){
