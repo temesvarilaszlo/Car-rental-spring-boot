@@ -1,11 +1,13 @@
 package com.example.carrental.controller;
 
 import com.example.carrental.model.Car;
+import com.example.carrental.model.DateRangeDTO;
 import com.example.carrental.service.CarService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
@@ -27,8 +29,15 @@ public class CarController {
     }
 
     @GetMapping("/free")
-    public ResponseEntity<List<Car>> getFreeCars(@RequestParam("start") LocalDate startDate, @RequestParam("end") LocalDate endDate){
-        return ResponseEntity.ok(carService.getFreeCars(startDate, endDate));
+    public String getFreeCars(@Valid DateRangeDTO dateRangeDTO, Model model){
+        LocalDate startDate = dateRangeDTO.getStartDate();
+        LocalDate endDate = dateRangeDTO.getEndDate();
+
+        List<Car> freeCars = carService.getFreeCars(startDate, endDate);
+        model.addAttribute("cars", freeCars);
+        model.addAttribute("startDate", startDate);
+        model.addAttribute("endDate", endDate);
+        return "car/cars";
     }
 
     @PostMapping

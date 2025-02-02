@@ -1,16 +1,17 @@
 package com.example.carrental.validator.dateRange;
 
 
+import com.example.carrental.model.DateRange;
 import com.example.carrental.model.ReservationDTO;
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
 
-public class DateRangeValidator implements ConstraintValidator<ValidDateRange, ReservationDTO> {
+public class DateRangeValidator implements ConstraintValidator<ValidDateRange, DateRange> {
     @Override
-    public boolean isValid(ReservationDTO reservationDTO, ConstraintValidatorContext constraintValidatorContext) {
-        if (reservationDTO.getStartDate() == null || reservationDTO.getEndDate() == null) return true;
+    public boolean isValid(DateRange dateRange, ConstraintValidatorContext constraintValidatorContext) {
+        if (dateRange.getStartDate() == null || dateRange.getEndDate() == null) return true;
 
-        return reservationDTO.getStartDate().isBefore(reservationDTO.getEndDate()) ||
-                reservationDTO.getStartDate().isEqual(reservationDTO.getEndDate());
+        return dateRange.getStartDate().isBefore(dateRange.getEndDate()) ||
+                dateRange.getStartDate().isEqual(dateRange.getEndDate());
     }
 }

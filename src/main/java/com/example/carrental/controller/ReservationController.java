@@ -1,5 +1,6 @@
 package com.example.carrental.controller;
 
+import com.example.carrental.exception.CustomValidationException;
 import com.example.carrental.model.Car;
 import com.example.carrental.model.Reservation;
 import com.example.carrental.model.ReservationDTO;
@@ -9,13 +10,13 @@ import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.time.LocalDate;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 
@@ -31,24 +32,36 @@ public class ReservationController {
         this.carService = carService;
     }
 
-    @PostMapping
-    public ResponseEntity<String> createReservation(@Valid @RequestBody ReservationDTO reservationRequest){
-        System.out.println(reservationRequest.getCarId());
-        Optional<Car> reservedCar = carService.getCarById(reservationRequest.getCarId());
-        if (reservedCar.isEmpty()) throw new RuntimeException("No such car");
+    @GetMapping
+    public String createReservation(){
+        return "reservation/reservation_form";
+    }
 
+    @PostMapping
+    public String storeReservation(@Valid @ModelAttribute ReservationDTO reservationRequest, RedirectAttributes redirectAttributes){
+        Map<String, String> errors = new HashMap<>();
+        Optional<Car> reservedCar = carService.getCarById(reservationRequest.getCarId());
+        if (reservedCar.isEmpty()){
+            errors.put("otherError", "No such car.");
+            throw new CustomValidationException(errors);
+        }
 
         if (!reservedCar.get().isFree(reservationRequest.getStartDate(), reservationRequest.getEndDate())){
-            throw new RuntimeException("Car is not free.");
+            errors.put("otherError", "Car is not free.");
+            throw new CustomValidationException(errors);
         }
 
         Reservation reservation = reservationRequest.toReservation(reservedCar.get());
         Reservation r = reservationService.createReservation(reservation);
-        return ResponseEntity.ok("ok" + r.getId());
+
+        redirectAttributes.addFlashAttribute("message",
+                "Reservation from " + r.getStartDate().toString() + " to " + r.getEndDate().toString() +
+                        " for car " + reservedCar.get().getName() + " was successfully created.");
+        return "redirect:/";
     }
 
 
-    @GetMapping
+    @GetMapping("list")
     public ResponseEntity<List<Reservation>> getReservations(){
         return ResponseEntity.ok(reservationService.getReservations());
     }

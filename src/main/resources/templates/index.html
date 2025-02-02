@@ -1,0 +1,34 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" th:href="@{/css/styles.css}" />
+    <title th:text="${title}"></title>
+</head>
+<body>
+    <h1>Select the dates:</h1>
+
+    <p th:if="${message != null}" th:text="${message}"></p>
+
+    <form th:action="@{/cars/free}" method="get">
+        <div>
+            <label for="startDate">Start</label>
+            <input type="date" name="startDate" id="startDate" th:value="${oldInput != null ? oldInput['startDate'] : ''}">
+            <span th:if="${errors != null && errors.containsKey('startDate')}" th:text="${errors['startDate']}" class="error"></span>
+        </div>
+        <div>
+            <label for="endDate">End</label>
+            <input type="date" name="endDate" id="endDate" th:value="${oldInput != null ? oldInput['endDate'] : ''}">
+            <span th:if="${errors != null && errors.containsKey('endDate')}" th:text="${errors['endDate']}" class="error"></span>
+        </div>
+
+        <span th:if="${errors != null && errors.containsKey('otherError')}" th:text="${errors['otherError']}" class="error"></span>
+
+        <button type="submit">Search</button>
+    </form>
+
+</body>
+</html>

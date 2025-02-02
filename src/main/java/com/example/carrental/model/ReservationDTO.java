@@ -12,7 +12,7 @@ import org.hibernate.validator.constraints.Length;
 import java.time.LocalDate;
 
 @ValidDateRange
-public class ReservationDTO {
+public class ReservationDTO implements DateRange {
     private long id;
 
     @NotNull
@@ -46,8 +46,7 @@ public class ReservationDTO {
     @NotNull
     private long carId;
 
-    public ReservationDTO(long id, String name, String email, String address, String phoneNum, LocalDate startDate, LocalDate endDate, long carId) {
-        this.id = id;
+    public ReservationDTO(String name, String email, String address, String phoneNum, LocalDate startDate, LocalDate endDate, long carId) {
         this.name = name;
         this.email = email;
         this.address = address;
@@ -65,10 +64,12 @@ public class ReservationDTO {
         return carId;
     }
 
+    @Override
     public LocalDate getStartDate() {
         return startDate;
     }
 
+    @Override
     public LocalDate getEndDate() {
         return endDate;
     }
