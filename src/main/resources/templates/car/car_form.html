@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" th:href="@{/css/styles.css}" />
+    <title>Document</title>
+</head>
+<body>
+    <form th:action="${car == null} ? '/cars' : '/cars/' + ${car.id}" th:method="${car == null ? 'post' : 'put'}">
+        <div>
+            <label for="name">Name</label>
+            <input type="text" name="name" id="name" th:value="${oldInput != null ? oldInput['name'] : (car != null ? car.name : '')}">
+            <span th:if="${errors != null && errors.containsKey('name')}" th:text="${errors['name']}" class="error"></span>
+        </div>
+
+        <div>
+            <label for="daily-cost">Daily cost</label>
+            <input type="text" name="dailyCost" id="daily-cost" th:value="${oldInput != null ? oldInput['dailyCost'] : (car != null ? car.dailyCost : '')}">
+            <span th:if="${errors != null && errors.containsKey('dailyCost')}" th:text="${errors['dailyCost']}" class="error"></span>
+        </div>
+
+        <button type="submit" th:text="${car == null ? 'Create' : 'Update'}"></button>
+
+    </form>
+</body>
+</html>

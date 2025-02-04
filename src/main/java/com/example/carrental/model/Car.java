@@ -1,12 +1,10 @@
 package com.example.carrental.model;
 
+import com.example.carrental.validator.integer.ValidInteger;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.Max;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Positive;
-import jakarta.validation.constraints.Size;
+import jakarta.validation.constraints.*;
 import org.hibernate.validator.constraints.Length;
 
 import java.time.LocalDate;
@@ -18,15 +16,11 @@ public class Car {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotNull
-    @Size(min = 1, max = 100)
     @Column(nullable = false, length = 100)
     private String name;
 
-    @Positive
-    @NotNull
     @Column(nullable = false)
-    private int dailyCost;
+    private Integer dailyCost;
 
     @Column(nullable = false)
     private boolean isActive;
@@ -55,6 +49,18 @@ public class Car {
 
     public Long getId() {
         return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setDailyCost(int dailyCost) {
+        this.dailyCost = dailyCost;
     }
 
     public String getName() {

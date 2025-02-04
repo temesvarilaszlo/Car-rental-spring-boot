@@ -12,25 +12,25 @@
     <form th:action="@{/reservations}" method="post">
         <div>
             <label for="name">Name</label>
-            <input type="text" name="name" id="name" th:value="${oldInput != null ? oldInput['name'] : ''}">
+            <input type="text" name="name" id="name" th:value="${oldInput != null ? oldInput['name'] : null}">
             <span th:if="${errors != null && errors.containsKey('name')}" th:text="${errors['name']}" class="error"></span>
         </div>
 
         <div>
             <label for="email">Email</label>
-            <input type="text" name="email" id="email" th:value="${oldInput != null ? oldInput['email'] : ''}">
+            <input type="text" name="email" id="email" th:value="${oldInput != null ? oldInput['email'] : null}">
             <span th:if="${errors != null && errors.containsKey('email')}" th:text="${errors['email']}" class="error"></span>
         </div>
 
         <div>
             <label for="address">Address</label>
-            <input type="text" name="address" id="address" th:value="${oldInput != null ? oldInput['address'] : ''}">
+            <input type="text" name="address" id="address" th:value="${oldInput != null ? oldInput['address'] : null}">
             <span th:if="${errors != null && errors.containsKey('address')}" th:text="${errors['address']}" class="error"></span>
         </div>
 
         <div>
             <label for="phoneNum">Phone number</label>
-            <input type="text" name="phoneNum" id="phoneNum" th:value="${oldInput != null ? oldInput['phoneNum'] : ''}">
+            <input type="text" name="phoneNum" id="phoneNum" th:value="${oldInput != null ? oldInput['phoneNum'] : null}">
             <span th:if="${errors != null && errors.containsKey('phoneNum')}" th:text="${errors['phoneNum']}" class="error"></span>
         </div>
 

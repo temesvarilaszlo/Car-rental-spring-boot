@@ -19,7 +19,7 @@
             <td th:text="${car.name}"></td>
             <td th:text="${car.dailyCost}"></td>
             <td>
-                <a th:href="@{/reservations(startDate=${startDate}, endDate=${endDate}, carId=${car.id})}">
+                <a th:href="@{/reservations/create(startDate=${startDate}, endDate=${endDate}, carId=${car.id})}">
                     <button type="button">Reserve</button>
                 </a>
             </td>

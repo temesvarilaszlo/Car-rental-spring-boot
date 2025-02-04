@@ -54,14 +54,14 @@ public class GlobalExceptionHandler {
 
         // Redirect back to the previous page
         String referer = request.getHeader("Referer");
-        return referer != null ? "redirect:" + referer : "redirect:/"; // Fallback to home if referer is null
+        return referer != null ? "redirect:" + referer : "redirect:/";
     }
 
     private void preserveOldFormState(RedirectAttributes redirectAttributes, HttpServletRequest request){
         Map<String, String> oldInput = new HashMap<>();
         request.getParameterMap().forEach((key, values) -> {
             if (values.length > 0) {
-                oldInput.put(key, values[0]); // Store only the first value for simplicity
+                oldInput.put(key, values[0]);
             }
             redirectAttributes.addFlashAttribute("oldInput", oldInput);
         });

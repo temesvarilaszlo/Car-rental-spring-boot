@@ -32,7 +32,7 @@ public class ReservationController {
         this.carService = carService;
     }
 
-    @GetMapping
+    @GetMapping("/create")
     public String createReservation(){
         return "reservation/reservation_form";
     }

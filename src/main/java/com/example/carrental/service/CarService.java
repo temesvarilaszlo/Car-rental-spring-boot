@@ -33,4 +33,13 @@ public class CarService {
     public Optional<Car> getCarById(Long id){
         return carRepository.findById(id);
     }
+
+    public Car updateCar(Long id, Car updatedCar) {
+        return carRepository.findById(id).map(car -> {
+            car.setId(id);
+            car.setName(updatedCar.getName());
+            car.setDailyCost(updatedCar.getDailyCost());
+            return carRepository.save(car);
+        }).orElseThrow(RuntimeException::new);
+    }
 }
