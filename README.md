@@ -24,4 +24,4 @@ datepickerből
 * `/rest-api/reservations`: új foglalás létrehozása (REST API)
 
 `PUT`
-* `/cars/{id}`: autó szerkesztése
+* `/cars/{id}`: autó szerkesztése, csak admin joggal
