@@ -14,7 +14,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-@ControllerAdvice
+@ControllerAdvice(basePackages = "com.example.carrental.controller")
 public class GlobalExceptionHandler {
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public String handleMethodArgumentNotValidException(MethodArgumentNotValidException exception,
@@ -24,9 +24,6 @@ public class GlobalExceptionHandler {
         Map<String, String> errors = new HashMap<>();
         exception.getBindingResult().getFieldErrors().forEach(error ->
                 errors.put(error.getField(), error.getDefaultMessage()));
-
-        System.out.println(exception.getAllErrors());
-
 
         // Add errors and input data to redirect attributes
         if (!exception.getBindingResult().getGlobalErrors().isEmpty()){

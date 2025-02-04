@@ -27,7 +27,7 @@ public class CarService {
     }
 
     public List<Car> getFreeCars(LocalDate startDate, LocalDate endDate){
-        return carRepository.findAll().stream().filter(car -> car.isFree(startDate, endDate)).toList();
+        return carRepository.findAll().stream().filter(car -> car.isFree(startDate, endDate) && car.isActive()).toList();
     }
 
     public Optional<Car> getCarById(Long id){

@@ -11,50 +11,68 @@
 <body>
     <p th:if="${message != null}" th:text="${message}"></p>
     <h2>Reservations</h2>
-    <table>
-        <tr>
-            <th>Car name</th>
-            <th>Name</th>
-            <th>Email</th>
-            <th>Address</th>
-            <th>Phone number</th>
-            <th>Start date</th>
-            <th>End date</th>
-            <th>Cost</th>
-        </tr>
-        <tr th:each="reservation: ${reservations}">
-            <td th:text="${reservation.car.name}"></td>
-            <td th:text="${reservation.name}"></td>
-            <td th:text="${reservation.email}"></td>
-            <td th:text="${reservation.address}"></td>
-            <td th:text="${reservation.phoneNum}"></td>
-            <td th:text="${reservation.startDate}"></td>
-            <td th:text="${reservation.endDate}"></td>
-            <td th:text="${reservation.cost}"></td>
-        </tr>
-    </table>
+    <div class="table-container">
+        <table>
+            <thead>
+                <tr>
+                    <th>Car name</th>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Address</th>
+                    <th>Phone number</th>
+                    <th>Start date</th>
+                    <th>End date</th>
+                    <th>Cost</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="reservation: ${reservations}">
+                    <td th:text="${reservation.car.name}"></td>
+                    <td th:text="${reservation.name}"></td>
+                    <td th:text="${reservation.email}"></td>
+                    <td th:text="${reservation.address}"></td>
+                    <td th:text="${reservation.phoneNum}"></td>
+                    <td th:text="${reservation.startDate}"></td>
+                    <td th:text="${reservation.endDate}"></td>
+                    <td th:text="${reservation.cost}"></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
 
     <h2>Cars</h2>
     <a th:href="@{/cars/create}">
         <button>New car</button>
     </a>
-    <table>
-        <tr>
-            <th>Name</th>
-            <th>Daily cost</th>
-            <th>Active</th>
-            <th>Update</th>
-        </tr>
-        <tr th:each="car: ${cars}">
-            <td th:text="${car.name}"></td>
-            <td th:text="${car.dailyCost}"></td>
-            <td th:text="${car.active ? 'Active' : 'Not active'}"></td>
-            <td>
-                <a th:href="@{/cars/{id}/edit(id=${car.id})}">
-                    <button>Update</button>
-                </a>
-            </td>
-        </tr>
-    </table>
+    <div class="table-container">
+        <table>
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Daily cost</th>
+                    <th>Update</th>
+                    <th>Activate/Deactivate</th>
+                    <th>Active</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="car: ${cars}">
+                    <td th:text="${car.name}"></td>
+                    <td th:text="${car.dailyCost}"></td>
+                    <td>
+                        <a th:href="@{/cars/{id}/edit(id=${car.id})}">
+                            <button>Update</button>
+                        </a>
+                    </td>
+                    <td>
+                        <form th:action="@{/cars/{id}/activate(id=${car.id})}" method="post">
+                            <button th:text="${car.active ? 'Deactivate' : 'Activate'}" type="submit"></button>
+                        </form>
+                    </td>
+                    <td th:text="${car.active ? 'Active' : 'Not active'}"></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
 </body>
 </html>

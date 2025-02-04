@@ -22,7 +22,9 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/admin/**", "/cars/create/**").access((authentication, context) -> {
+                        .requestMatchers("/cars/free/**").permitAll()
+
+                        .requestMatchers("/admin/**", "/cars/**").access((authentication, context) -> {
                             if (userRoleConfig.isAdmin()) {
                                 return new AuthorizationDecision(true);
                             } else {

@@ -2,6 +2,7 @@ package com.example.carrental.service;
 
 import com.example.carrental.model.Reservation;
 import com.example.carrental.repository.ReservationRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

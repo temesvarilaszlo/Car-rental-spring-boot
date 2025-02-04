@@ -4,6 +4,7 @@ import com.example.carrental.model.Car;
 import com.example.carrental.model.CarDTO;
 import com.example.carrental.model.DateRangeDTO;
 import com.example.carrental.service.CarService;
+import com.example.carrental.service.ReservationService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -20,15 +21,12 @@ import java.util.Optional;
 @RequestMapping("/cars")
 public class CarController {
     private final CarService carService;
+    private final ReservationService reservationService;
 
     @Autowired
-    public CarController(CarService carService) {
+    public CarController(CarService carService, ReservationService reservationService) {
         this.carService = carService;
-    }
-
-    @GetMapping
-    public ResponseEntity<List<Car>> getCars(){
-        return ResponseEntity.ok(carService.getCars());
+        this.reservationService = reservationService;
     }
 
     @GetMapping("/free")
@@ -68,7 +66,6 @@ public class CarController {
 
     @PutMapping("/{id}")
     public String updateCar(@PathVariable("id") Long id, @Valid @ModelAttribute CarDTO carRequest, RedirectAttributes redirectAttributes){
-        System.out.println("put request");
         try {
             Car car = carService.updateCar(id, carRequest.toCar());
             redirectAttributes.addFlashAttribute("message", car.getName() + " has been successfully updated.");
@@ -77,5 +74,22 @@ public class CarController {
         catch (RuntimeException e){
             return "error/404";
         }
+    }
+
+    @PostMapping("/{id}/activate")
+    public String activateCar(@PathVariable("id") Long id){
+        Optional<Car> optionalCar = carService.getCarById(id);
+        if (optionalCar.isEmpty()) return "error/404";
+
+        Car car = optionalCar.get();
+        car.setActive(!car.isActive());
+
+        if (!car.isActive()){
+            car.getReservations().clear();
+        }
+
+        carService.updateCar(id, car);
+
+        return "redirect:/admin";
     }
 }

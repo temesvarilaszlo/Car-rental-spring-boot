@@ -6,24 +6,30 @@
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="stylesheet" th:href="@{/css/styles.css}" />
-    <title>Document</title>
+    <title th:text="|Free cars from ${startDate} to ${endDate}|"></title>
 </head>
 <body>
-    <table>
-        <tr>
-            <th>Name</th>
-            <th>Daily cost</th>
-            <th>Reserve</th>
-        </tr>
-        <tr th:each="car: ${cars}">
-            <td th:text="${car.name}"></td>
-            <td th:text="${car.dailyCost}"></td>
-            <td>
-                <a th:href="@{/reservations/create(startDate=${startDate}, endDate=${endDate}, carId=${car.id})}">
-                    <button type="button">Reserve</button>
-                </a>
-            </td>
-        </tr>
-    </table>
+    <div class="table-container">
+        <table>
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Daily cost</th>
+                    <th>Reserve</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="car: ${cars}">
+                    <td th:text="${car.name}"></td>
+                    <td th:text="${car.dailyCost}"></td>
+                    <td>
+                        <a th:href="@{/reservations/create(startDate=${startDate}, endDate=${endDate}, carId=${car.id})}">
+                            <button type="button">Reserve</button>
+                        </a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
 </body>
 </html>
